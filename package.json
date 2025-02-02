@@ -1,0 +1,29 @@
+{
+  "name": "zyarat",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:mobile": "turbo run dev --filter=mobile",
+    "dev:server": "turbo run dev --filter=server",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "expo-cli": "^6.3.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.4.2",
+    "turbo": "^2.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "npm@10.5.1"
+}
