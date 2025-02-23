@@ -1,14 +1,12 @@
-const express = require('express')
+const express = require("express");
 
 const router = express.Router();
 
-const {
-    getUsers,
-} = require("../Controllers/adminController");
+const { getUsers } = require("../Controllers/adminController");
 
 const auth = require("../Middlewares/auth");
-const autho = require("../Middlewares/autho")
+const autho = require("../Middlewares/autho");
 
-router.get('/', auth, autho(['admin']),getUsers)
+router.get("/", auth, autho(["admin"]), getUsers);
 
 module.exports = router;
