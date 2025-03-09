@@ -1,4 +1,3 @@
-import { LayoutDashboard, CheckCircle, Clock, BarChart, AlertTriangle } from "lucide-react";
 import React, { useState } from "react";
 import {
   Sidebar,
@@ -11,48 +10,11 @@ import {
   SidebarMenuItem,
 } from "../components/ui/sidebar";
 
-import OverviewSection from "./OverviewSection";
-import VerifiedInstitutionsSection from "./VerifiedInstitutionsSection";
-import WaitlistSection from "./WaitlistSection";
-import InsightsAndAnalyticsSection from "./InsightsAndAnalyticsSection";
-import ComplaintsSection from "./ComplaintsSection";
-
 import logo from '../../assets/logo.png'
 
-const items = [
-  {
-    id: 1,
-    title: "Overview",
-    section: OverviewSection,
-    icon: LayoutDashboard,
-  },
-  {
-    id: 2,
-    title: "Verified Institutions",
-    section: VerifiedInstitutionsSection,
-    icon: CheckCircle,
-  },
-  {
-    id: 3,
-    title: "Waitlist",
-    section: WaitlistSection,
-    icon: Clock,
-  },
-  {
-    id: 4,
-    title: "Insights & Analytics",
-    section: InsightsAndAnalyticsSection,
-    icon: BarChart,
-  },
-  {
-    id: 5,
-    title: "Complaints",
-    section: ComplaintsSection,
-    icon: AlertTriangle,
-  },
-];
 
-export default function SideBar() {
+
+export default function SideBar({items}) {
   const [activeSection, setActiveSection] = useState(1); // Store the active section by its ID
 
   return (
