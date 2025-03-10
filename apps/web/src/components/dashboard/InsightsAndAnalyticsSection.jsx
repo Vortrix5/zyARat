@@ -1,16 +1,15 @@
-import React from "react";
-import { DollarSign, Users, TrendingUp } from "lucide-react";
-import { Bar, Pie } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
+  ArcElement,
   BarElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  ArcElement, // Needed for Pie chart
+  Title,
+  Tooltip,
 } from "chart.js";
+import { DollarSign, TrendingUp, Users } from "lucide-react";
+import { Bar, Pie } from "react-chartjs-2";
 
 // Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement);
@@ -115,19 +114,19 @@ const stats = [
 
 const InsightsSection = () => {
   return (
-    <div className="w-full min-h-screen flex flex-col items-center px-6 py-8 bg-white">
-      <h2 className="text-3xl font-extrabold text-gray-900 mb-10 text-center">
+    <div className="w-full py-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
         Insights & Analytics
       </h2>
 
       {/* Insights Sections - Each Section for Different Metric */}
       <div className="w-full space-y-10">
         {stats.map((stat, index) => (
-          <div key={index} className="w-full border-b border-gray-300 pb-6 mb-10">
+          <div key={index} className="w-full border-b border-gray-200 pb-8 mb-8">
             <div className="flex items-center justify-center mb-4">
               <div className="flex items-center">
                 {stat.icon}
-                <div className="text-xl font-semibold ml-2 text-gray-900 text-center">
+                <div className="text-xl font-semibold ml-2 text-gray-800">
                   {stat.title}
                 </div>
               </div>
@@ -137,78 +136,92 @@ const InsightsSection = () => {
               {stat.value}
             </div>
 
-            <div className="mt-4 text-sm text-gray-700 text-center">{stat.description}</div>
+            <div className="mt-4 text-sm text-gray-700 text-center max-w-2xl mx-auto">
+              {stat.description}
+            </div>
 
-            {/* Bar Chart for each metric */}
-            <div className="w-full h-[350px] mt-6 flex justify-center mb-10">
+            {/* Charts Section - improved width handling */}
+            <div className="mt-8 w-full">
               {stat.chartData && (
-                <Bar
-                  data={stat.chartData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        position: "top",
-                      },
-                      tooltip: {
-                        backgroundColor: "#333",
-                        titleColor: "#fff",
-                        bodyColor: "#fff",
-                      },
-                    },
-                    scales: {
-                      x: {
-                        ticks: {
-                          color: "#555",
+                <div className="w-full h-[300px]">
+                  <Bar
+                    data={stat.chartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: {
+                        legend: {
+                          position: "top",
                         },
-                        grid: {
-                          color: "rgba(0,0,0,0.1)",
+                        tooltip: {
+                          backgroundColor: "#333",
+                          titleColor: "#fff",
+                          bodyColor: "#fff",
                         },
                       },
-                      y: {
-                        ticks: {
-                          color: "#555",
-                        },
-                        grid: {
-                          color: "rgba(0,0,0,0.1)",
-                        },
-                      },
-                    },
-                  }}
-                />
-              )}
-              {/* Pie Charts for Users (Age and Gender) */}
-              {stat.pieCharts && stat.pieCharts.map((chart, idx) => (
-                <div key={idx} className="w-[350px] h-[350px] mt-6 flex justify-center items-center mb-10">
-                  <div className="w-full text-center">
-                    <h3 className="text-xl font-semibold text-gray-900">{chart.title}</h3>
-                    <Pie
-                      data={{
-                        labels: chart.labels,
-                        datasets: [
-                          {
-                            data: chart.data,
-                            backgroundColor: chart.backgroundColor,
+                      scales: {
+                        x: {
+                          ticks: {
+                            color: "#555",
                           },
-                        ],
-                      }}
-                      options={{
-                        responsive: true,
-                        plugins: {
-                          legend: {
-                            position: "top",
-                          },
-                          tooltip: {
-                            backgroundColor: "#333",
-                            titleColor: "#fff",
-                            bodyColor: "#fff",
+                          grid: {
+                            color: "rgba(0,0,0,0.05)",
                           },
                         },
-                      }}
-                    />
-                  </div>
+                        y: {
+                          ticks: {
+                            color: "#555",
+                          },
+                          grid: {
+                            color: "rgba(0,0,0,0.05)",
+                          },
+                        },
+                      },
+                    }}
+                  />
                 </div>
-              ))}
+              )}
+
+              {/* Pie Charts with better responsiveness */}
+              {stat.pieCharts && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 w-full">
+                  {stat.pieCharts.map((chart, idx) => (
+                    <div key={idx} className="w-full h-[300px]">
+                      <h3 className="text-lg font-semibold text-gray-800 text-center mb-4">
+                        {chart.title}
+                      </h3>
+                      <Pie
+                        data={{
+                          labels: chart.labels,
+                          datasets: [
+                            {
+                              data: chart.data,
+                              backgroundColor: chart.backgroundColor,
+                            },
+                          ],
+                        }}
+                        options={{
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              position: "bottom",
+                              labels: {
+                                padding: 16,
+                              },
+                            },
+                            tooltip: {
+                              backgroundColor: "#333",
+                              titleColor: "#fff",
+                              bodyColor: "#fff",
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}

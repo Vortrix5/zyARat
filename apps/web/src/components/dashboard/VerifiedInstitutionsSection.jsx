@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import {
   Card,
-  CardHeader,
   CardContent,
   CardDescription,
-} from "../components/ui/card";
-import { ChevronDown, ChevronUp } from "lucide-react";
+  CardHeader,
+} from "../ui/card";
 
 const institutions = [
   {
@@ -98,21 +98,22 @@ const VerifiedInstitutionSection = () => {
   };
 
   return (
-    <div className="w-full p-4 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+    <div className="w-full py-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
         Verified Institutions
       </h2>
-      <div className="flex flex-col gap-6 w-full max-w-7xl">
+
+      <div className="flex flex-col gap-4">
         {institutions.map((institution, index) => (
           <Card
             key={index}
-            className="w-full max-w-5xl mx-auto bg-white dark:bg-gray-800 shadow rounded-lg p-6 transition-all duration-300"
+            className="bg-white shadow hover:shadow-md transition-all border border-gray-100"
           >
             <CardHeader className="flex items-center justify-between w-full pb-2 relative">
-              <div className="text-lg font-bold">{institution.name}</div>
+              <div className="text-lg font-bold text-gray-800">{institution.name}</div>
               <button
                 onClick={() => handleToggleDetails(index)}
-                className="absolute top-2 right-2 text-xl text-blue-500 hover:text-blue-700 focus:outline-none bg-transparent"
+                className="absolute top-4 right-4 text-blue-500 hover:text-blue-700 focus:outline-none bg-transparent"
               >
                 {expandedIndex === index ? (
                   <ChevronUp className="w-5 h-5" />
@@ -121,30 +122,30 @@ const VerifiedInstitutionSection = () => {
                 )}
               </button>
             </CardHeader>
-            <CardContent className="w-full">
+            <CardContent className="pt-2">
               <div className="flex justify-between mb-2 text-sm text-gray-500">
                 <span>{institution.city}</span>
                 <span>{institution.entryFee}</span>
               </div>
+
               {/* Extra details container with dynamic height */}
               <div
-                className={`overflow-y-scroll transition-all duration-300 ${
-                  expandedIndex === index
-                    ? "max-h-[500px] opacity-100" // Expanded state height
-                    : "max-h-[10px] opacity-0" // Collapsed height reduced
-                }`}
+                className={`overflow-hidden transition-all duration-300 ${expandedIndex === index
+                  ? "max-h-[500px] opacity-100 pt-4"
+                  : "max-h-0 opacity-0"
+                  }`}
               >
-                <CardDescription className="mt-4 text-sm text-gray-700 dark:text-gray-400">
-                  <p>
+                <CardDescription className="text-sm text-gray-700">
+                  <p className="mb-2">
                     <strong>Description:</strong> {institution.description}
                   </p>
-                  <p>
+                  <p className="mb-1">
                     <strong>Registration Date:</strong> {institution.registrationDate}
                   </p>
-                  <p>
+                  <p className="mb-1">
                     <strong>Acceptance Date:</strong> {institution.acceptanceDate}
                   </p>
-                  <p>
+                  <p className="mb-1">
                     <strong>Creation Date:</strong> {institution.creationDate}
                   </p>
                 </CardDescription>

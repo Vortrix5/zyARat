@@ -7,13 +7,13 @@ const {
     getUsers,
     resetPassword,
     logIn
-} = require("../Controllers/userController");
+} = require("../controllers/userController");
 
-const auth = require("../Middlewares/auth");
+const auth = require("../middlewares/auth");
 
 router.post('/register', register);
 router.put('/resetpassword', auth, resetPassword);
 router.post('/login', logIn)
-router.get('/', auth, autho(['admin']),getUsers)
+router.get('/', auth, autho(['admin']), getUsers)
 
 module.exports = router;

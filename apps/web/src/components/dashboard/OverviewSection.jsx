@@ -1,28 +1,26 @@
-import React from "react";
 import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-} from "../components/ui/card";
+	BarElement,
+	CategoryScale,
+	Chart as ChartJS,
+	Legend,
+	LinearScale,
+	Title,
+	Tooltip,
+} from "chart.js";
 import {
+	Clock,
 	DollarSign,
 	Ticket,
-	Users,
-	Clock,
-	BarChart as BarChartIcon,
+	Users
 } from "lucide-react";
 import { Bar } from "react-chartjs-2";
 import {
-	Chart as ChartJS,
-	Title,
-	Tooltip,
-	Legend,
-	BarElement,
-	CategoryScale,
-	LinearScale,
-} from "chart.js";
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "../ui/card";
 
 // Register Chart.js components
 ChartJS.register(
@@ -98,31 +96,31 @@ const institutions = [
 
 export default function OverviewSection() {
 	return (
-		<div className="p-4">
-			<h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-4 text-center">
+		<div className="w-full py-6">
+			<h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-6 text-center">
 				Overview
 			</h2>
+
 			{/* Stats Cards */}
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 				{stats.map((stat, index) => (
 					<Card
 						key={index}
-						className="flex flex-col items-center justify-center bg-white dark:bg-gray-800 shadow-sm rounded-lg transition-transform transform hover:scale-[1.02] hover:shadow-md p-4 max-w-xs max-h-[250px]"
+						className="bg-white shadow hover:shadow-md transition-all p-4"
 					>
 						<CardHeader className="flex items-center space-x-2 pb-2 justify-center">
 							<div className="text-lg">{stat.icon}</div>
-							<CardTitle className="text-lg font-bold text-gray-700 dark:text-gray-200 text-center">
+							<CardTitle className="text-base font-bold text-gray-700">
 								{stat.title}
 							</CardTitle>
 						</CardHeader>
-						<CardContent className="text-lg font-semibold text-gray-900 dark:text-white flex justify-center items-center">
+						<CardContent className="text-lg font-semibold text-gray-900 flex justify-center items-center pt-2">
 							{stat.value}
 						</CardContent>
 						{stat.change && (
 							<CardDescription
-								className={`text-xs font-medium mt-1 text-center px-2 ${
-									stat.change.includes("-") ? "text-red-500" : "text-green-500"
-								}`}
+								className={`text-xs font-medium text-center px-2 mt-1 ${stat.change.includes("-") ? "text-red-500" : "text-green-500"
+									}`}
 							>
 								{stat.change}
 							</CardDescription>
@@ -130,46 +128,48 @@ export default function OverviewSection() {
 					</Card>
 				))}
 			</div>
+
 			{/* Two Big Cards Below */}
-			<div className="flex gap-4 mt-8">
-				{/* Bar Chart Card (75% Width) */}
-				<Card className="flex-[3] min-w-[60%] flex flex-col items-center justify-center bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
-					<CardHeader className="text-center mb-4">
-						<CardTitle className="text-xl font-bold">
+			<div className="grid md:grid-cols-3 gap-6 mt-8">
+				{/* Bar Chart Card */}
+				<Card className="md:col-span-2 bg-white shadow p-5 h-full">
+					<CardHeader className="text-center pb-2">
+						<CardTitle className="text-xl font-bold text-gray-800">
 							User Onboarding by Month
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="w-full h-[300px]">
+					<CardContent className="pt-4 h-[300px]">
 						<Bar
 							data={onboardingChartData}
 							options={{
 								responsive: true,
+								maintainAspectRatio: false,
 								plugins: {
 									legend: {
-										display: false, // Hide the label
+										display: false,
 									},
 									tooltip: {
-										backgroundColor: "#000", // Black background for tooltips
-										titleColor: "#fff", // White title for tooltips
-										bodyColor: "#fff", // White body text for tooltips
-										footerColor: "#fff", // White footer color
+										backgroundColor: "#000",
+										titleColor: "#fff",
+										bodyColor: "#fff",
+										footerColor: "#fff",
 									},
 								},
 								scales: {
 									x: {
 										ticks: {
-											color: "#555", // Color of X axis ticks
+											color: "#555",
 										},
 										grid: {
-											color: "rgba(0,0,0,0.1)", // Grid color
+											color: "rgba(0,0,0,0.05)",
 										},
 									},
 									y: {
 										ticks: {
-											color: "#555", // Color of Y axis ticks
+											color: "#555",
 										},
 										grid: {
-											color: "rgba(0,0,0,0.1)", // Grid color
+											color: "rgba(0,0,0,0.05)",
 										},
 									},
 								},
@@ -178,21 +178,24 @@ export default function OverviewSection() {
 					</CardContent>
 				</Card>
 
-				{/* Top Institutions Card (25% Width) */}
-				<Card className="flex-[1] min-w-[35%] flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
-					<CardHeader className="text-center mb-4">
-						<CardTitle className="text-xl font-bold">
+				{/* Top Institutions Card */}
+				<Card className="bg-white shadow p-5">
+					<CardHeader className="text-center pb-2">
+						<CardTitle className="text-xl font-bold text-gray-800">
 							Top Cultural Institutions
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="space-y-2">
+					<CardContent className="space-y-3 pt-4">
 						{institutions.map((institution, index) => (
 							<div
 								key={index}
-								className="flex justify-between p-2 border-b border-gray-200 dark:border-gray-700"
+								className="flex justify-between p-2 border-b border-gray-200"
 							>
-								<div className="text-md font-medium text-gray-900 dark:text-white">
+								<div className="text-md font-medium text-gray-900">
 									{institution.name}
+								</div>
+								<div className="text-sm text-gray-500">
+									{institution.city}
 								</div>
 							</div>
 						))}
