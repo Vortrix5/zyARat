@@ -5,6 +5,7 @@ import SignInPage from "../pages/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage.jsx";
 import WaitlistPage from "../pages/WaitlistPage.jsx";
 import AdminDashboard from "../pages/AdminDashboard.jsx"
+import InstitutionDashboard from "../pages/InstitutionDashboard.jsx";
 
 const routesConfig = [
   {
@@ -16,6 +17,7 @@ const routesConfig = [
       { path: "/sign-up", element: <SignUpPage /> },
       { path: "/waitlist", element: <WaitlistPage />},
       { path: "/admin-dashboard", element: <AdminDashboard/>},
+      { path: "/institution-dashboard", element: <InstitutionDashboard/>}
     ],
   },
 ];
