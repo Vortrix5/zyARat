@@ -17,7 +17,7 @@ const routesConfig = [
       { path: "/sign-up", element: <SignUpPage /> },
       { path: "/waitlist", element: <WaitlistPage />},
       { path: "/admin-dashboard", element: <AdminDashboard/>},
-      { path: "/institution-dashboard", element: <InstitutionDashboard/>}
+      { path: "/institution-dashboard", element: <InstitutionDashboard/>},
     ],
   },
 ];

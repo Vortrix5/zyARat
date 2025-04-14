@@ -8,9 +8,9 @@ export default function RootLayout() {
     const navigate = useNavigate();
 
     useEffect(() => {
-		if (isLoaded && isSignedIn) {
-			navigate("/");
-		}
+		// if (isLoaded && isSignedIn) {
+		// 	navigate("/");
+		// }
     }, [isLoaded, isSignedIn, navigate]);
 
   return (

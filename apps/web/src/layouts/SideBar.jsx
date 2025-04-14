@@ -14,7 +14,7 @@ import {
 import logo from '../../assets/logo.png'
 
 
-export default function SideBar({items}) {
+export default function SideBar({items , title}) {
   const [activeSection, setActiveSection] = useState(1); // Store the active section by its ID
 
   return (
@@ -24,7 +24,7 @@ export default function SideBar({items}) {
           <SidebarGroup>
             <SidebarGroupLabel className="text-lg font-semibold text-center text-gray-900 dark:text-white mb-6 mt-6 p-2">
               <img src={logo} alt="zyARat Logo" className="w-20 h-20 mr-2"/>
-              zyARat Administration
+              {title}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

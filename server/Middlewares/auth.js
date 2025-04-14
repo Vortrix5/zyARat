@@ -10,10 +10,10 @@ const auth = (req, res, next) => {
     try{
         token = token.replace("Bearer ", "");
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        console.log(decoded)
+        req.id = decoded.id;
         next();
     }catch(error){
+      console.log(error)
         res.status(500).json({message: "Server Error", error: error});
     }
 };

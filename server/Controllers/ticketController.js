@@ -1,72 +1,105 @@
-const Ticket = require("../models/Ticket");
+const Institution = require("../Models/Institution")
+const Ticket = require("../Models/Ticket")
+
+const getTickets = async (req, res) => {
+  try{
+    const id = req.id;
+    
+    const institution = await Institution.findOne({id: id})
+
+    const tickets = await Ticket.find({institutionId: institution._id});
+    
+    if(tickets.length === 0){
+      return res.status(404).json({ messege: "No tickets were found." });
+    }
+    return res.status(200).json({ message: "Tickets retrieved succesfully" , tickets });
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({ message: "Server error"});
+  }
+}
 
 const createTicket = async (req, res) => {
   try {
-    const institutionId = req.institutionId;
-    const { name, price, description, quantity } = req.body;
+    const id = req.id;
+    const { name , price , description } = req.body;
 
-    const newTicket = new Ticket({
-      institutionId,
-      name,
-      price,
-      description,
-      quantity,
-    });
-
-    await newTicket.save();
-    res.status(201).json({ message: "Ticket created successfully", ticket: newTicket });
-  } catch (err) {
-    res.status(500).json({ message: "Error creating ticket", error: err.message });
-  }
-};
-
-const getTickets = async (req, res) => {
-  try {
-    const { institutionId } = req.institutionId;
-
-    const tickets = await Ticket.find({ institutionId });
-
-    if (!tickets.length) {
-      return res.status(404).json({ message: "No tickets found for this institution" });
+    const institution = await Institution.findOne({id: id});
+    if (!institution) {
+      return res.status(404).json({ message: "Institution not found." });
     }
 
-    res.status(200).json({ message: "Tickets fetched successfully", tickets });
+    const ticket = new Ticket({
+      institutionId: institution._id,
+      name: name,
+      price: price,
+      description: description,
+    })
+
+    await ticket.save();
+
+    res.status(200).json({ message: "Ticket added successfully.", institution });
   } catch (err) {
-    res.status(500).json({ message: "Error fetching tickets", error: err.message });
-  }
-};
-
-const updateTicket = async (req, res) => {
-  try {
-    const { id } = req.institutionId;
-    const updates = req.body;
-
-    const updatedTicket = await Ticket.findByIdAndUpdate(id, updates, { new: true });
-
-    if (!updatedTicket) {
-      return res.status(404).json({ message: "Ticket not found" });
-    }
-
-    res.status(200).json({ message: "Ticket updated successfully", ticket: updatedTicket });
-  } catch (err) {
-    res.status(500).json({ message: "Error updating ticket", error: err.message });
+    console.log(err)
+    res.status(500).json({ message: "An error occurred while adding the ticket.", error: err.message });
   }
 };
 
 const deleteTicket = async (req, res) => {
   try {
-    const { id } = req.institutionId;
+    const id = req.id;
+    const { ticketId } = req.body;
+    console.log()
 
-    const ticket = await Ticket.findByIdAndDelete(id);
+    const institution = await Institution.findOne({id: id});
+    if (!institution) {
+      return res.status(404).json({ message: "Institution not found." });
+    }
 
-    if (!ticket) {
+    const ticket = await Ticket.findById(ticketId);
+
+    if(!ticket){
       return res.status(404).json({ message: "Ticket not found" });
     }
 
-    res.status(200).json({ message: "Ticket deleted successfully" });
+    if(ticket.institutionId.toString() !== ticket._id.toString()){
+      return res.status(401).json({ message: "Do not have authorization to delete this ticket." })
+    }
+  
+    await Ticket.findByIdAndDelete(ticketId)
+    res.status(200).json({ message: "Ticket deleted successfully.", institution });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting ticket", error: err.message });
+    console.log(err)
+    res.status(500).json({ message: "An error occurred while adding the ticket.", error: err.message });
   }
 };
 
-module.exports = { createTicket, getTickets, updateTicket, deleteTicket };
+const updateTicket = async (req, res) => {
+  try {
+    const id = req.id;
+    const { ticketId , name , price , description } = req.body;
+
+    const institution = await Institution.findOne({id: id});
+    if (!institution) {
+      return res.status(404).json({ message: "Institution not found." });
+    }
+
+    const ticket = await Ticket.findById(ticketId);
+
+    if(!ticket){
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    if(ticket.institutionId.toString() !== institution._id.toString()){
+      return res.status(401).json({ message: "Do not have authorization to update this ticket." })
+    }
+  
+    await Ticket.findByIdAndUpdate(ticketId, { name: name, price: price, description: description })
+    res.status(200).json({ message: "Ticket updated successfully.", institution });
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: "An error occurred while updating the ticket.", error: err.message });
+  }
+};
+
+module.exports = { getTickets , createTicket , deleteTicket , updateTicket}
